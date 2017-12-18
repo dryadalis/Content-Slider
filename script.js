@@ -22,6 +22,7 @@ links[activeLink].classList.add("active");
 // third passes a reference to clicked element to the changePosition
 function setClickedItem(e) {
     removeActiveLinks();
+    resetTimer();
  
     var clickedLink = e.target;
     activeLink = clickedLink.itemID;
@@ -45,4 +46,36 @@ function changePosition(link) {
  
     link.classList.add("active");
 }
+
+
+// Slide the content automatically 
+
+let timeoutID;
+
+function startTimer() {
+    // wait 2 sec before calling goInactive
+    timeoutID = window.setInterval(goToTheNextItem, 2000);
+}
+
+startTimer();
+
+function resetTimer() {
+    //stop the timer
+    window.clearInterval(timeoutID);
+    startTimer();
+}
+
+function goToTheNextItem() {
+    removeActiveLinks(); 
+
+    // check if there is more content ahead or whether the slider should go back to beginning
+    if(activeLink < links.length - 1) {
+        activeLink++
+    } else {
+        activeLink = 0;
+    }
+    let newLink = links[activeLink];
+    changePosition(newLink);
+}
+
 
